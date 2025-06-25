@@ -8,17 +8,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::name('transactions.')->prefix('transactions')->group(function () {
-    Route::controller(TransactionController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::get('/{transactionId}', 'show')->name('show');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{transactionId}/dopcuments')->name('documents');
-    });
+// Route::name('transactions.')->prefix('transactions')->group(function () {
+//     Route::controller(TransactionController::class)->group(function () {
+//         Route::get('/', 'index')->name('index');
+//         Route::get('/create', 'create')->name('create');
+//         Route::get('/{transactionId}', 'show')->name('show');
+//         Route::post('/', 'store')->name('store');
+//         Route::get('/{transactionId}/dopcuments')->name('documents');
+//     });
 
-    Route::get('/{transactionId}/process', ProcessTransactionController::class)->name('process');
-});
+//     Route::get('/{transactionId}/process', ProcessTransactionController::class)->name('process');
+// });
 
 // Route::prefix(('transactions'))->group(function () {
 
