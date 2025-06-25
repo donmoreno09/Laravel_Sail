@@ -11,10 +11,17 @@ Route::get('/', function () {
 Route::prefix(('transactions'))->group(function () {
 
     Route::controller(TransactionController::class)->group(function () {
-        Route::get('/', 'index')->name('transactions.index');
-        Route::get('/create', 'create')->name('transactions.create');
-        Route::get('/{transactionId}', 'show')->name('transactions.show');
-        Route::post('/', 'store')->name('transactions.store');
+
+        Route::name('transactions.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/{transactionId}', 'show')->name('show');
+            Route::post('/', 'store')->name('store');
+        });
+        // Route::get('/', 'index')->name('transactions.index');
+        // Route::get('/create', 'create')->name('transactions.create');
+        // Route::get('/{transactionId}', 'show')->name('transactions.show');
+        // Route::post('/', 'store')->name('transactions.store');
     });
 
     // Route::get('/', [TransactionController::class, 'index']);
