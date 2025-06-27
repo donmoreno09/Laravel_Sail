@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 class TransactionController
 {
     
-    public function index(): string
+    public function index(Request $request): string
     {
+
+        echo 'Request ID: ' . $request->headers->get('X-Request-ID') . '<br>' . PHP_EOL;
+
         return 'Transactions Page';
     }
 
