@@ -1,12 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckUserRole;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProcessTransactionController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/administration', function () {
+    return 'Secret Admin Page';
+})->middleware(CheckUserRole::class);
 
 // Route::name('transactions.')->prefix('transactions')->group(function () {
 //     Route::controller(TransactionController::class)->group(function () {
