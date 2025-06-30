@@ -8,7 +8,7 @@ use App\Contracts\PaymentProcessor;
 
 readonly class Stripe implements PaymentProcessor
 {
-    public function __construct(private readonly array $config)
+    public function __construct(private readonly array $config, private SalesTaxCalculator $salesTaxCalculator)
     {
         dump($config);
     }
