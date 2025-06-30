@@ -6,8 +6,13 @@ namespace App\Services;
 
 use App\Contracts\PaymentProcessor;
 
-class Stripe implements PaymentProcessor
+readonly class Stripe implements PaymentProcessor
 {
+    public function __construct(private readonly array $config)
+    {
+        dump($config);
+    }
+
     public function process(array $transaction): void
     {
         // Here you would implement the logic to process the payment using Stripe's API

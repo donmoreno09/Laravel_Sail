@@ -9,16 +9,18 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public $bindings = [
-        PaymentProcessor::class => Stripe::class,
-    ];
+    // public $bindings = [
+    //     PaymentProcessor::class => Stripe::class,
+    // ];
 
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        // $this->app->bind(PaymentProcessor::class, Stripe::class);
+        $this->app->bind(PaymentProcessor::class, function () {
+            return new Stripe([]);
+        });
     }
 
     /**
