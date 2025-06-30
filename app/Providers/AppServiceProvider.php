@@ -19,8 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PaymentProcessor::class, function () {
-            return new Stripe([], new SalesTaxCalculator());
+        $this->app->bind(PaymentProcessor::class, function ($app) {
+            return new Stripe([], $app->make(SalesTaxCalculator::class));
         });
     }
 
