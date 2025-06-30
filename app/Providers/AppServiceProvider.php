@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Services\Stripe;
-use App\Contracts\PaymentProcessor;
+// use App\Services\Stripe;
+// use App\Contracts\PaymentProcessor;
 // use App\Services\SalesTaxCalculator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Foundation\Application;
+// use Illuminate\Contracts\Foundation\Application;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,9 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PaymentProcessor::class, function (Application $app) {
-            return $app->make(Stripe::class, ['config' => []]);
-        });
     }
 
     /**

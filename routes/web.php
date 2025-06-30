@@ -7,6 +7,8 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProcessTransactionController;
 
 Route::get('/', function () {
+    dd(app());
+
     return view('welcome');
 });
 
