@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\TransactionService;
 
 class TransactionController
 {
-    
-    public function index(Request $request): string
-    {
 
-        echo 'Request ID: ' . $request->headers->get('X-Request-ID') . '<br>' . PHP_EOL;
+    public function __construct(private readonly TransactionService $transactionService)
+    {
+        
+    }
+    
+    public function index(): string
+    {
 
         return 'Transactions Page';
     }
 
     public function show(int $transactionId): string
     {
-        return 'Showing transaction with id: ' . $transactionId;
+        $transaction = $this->transactionService->findTransactionById($transactionId);
+
+        return 'Transactioon ID: ' . $transaction['transactionId'] . ', Amount: ' . $transaction['amount'] . ', Currency: ' . $transaction['currency'] . ', Status: ' . $transaction['status'];
     }
 
     public function create(): string
