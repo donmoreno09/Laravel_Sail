@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Stripe;
+use App\Contracts\PaymentProcessor;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PaymentProcessor::class, Stripe::class);
     }
 
     /**
