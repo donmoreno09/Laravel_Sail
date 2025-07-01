@@ -1,5 +1,6 @@
 <?php
 
+use App\Facades\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckUserRole;
 use App\Http\Middleware\SomeOtherMiddleware;
@@ -7,7 +8,9 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProcessTransactionController;
 
 Route::get('/', function () {
-    dd(app());
+    Payment::process(
+        ['transactionId' => '12345']
+    );
 
     return view('welcome');
 });

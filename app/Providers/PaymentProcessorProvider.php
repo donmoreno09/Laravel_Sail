@@ -15,7 +15,7 @@ class PaymentProcessorProvider extends ServiceProvider implements DeferrableProv
      */
     public function register(): void
     {
-        dump('PaymentProcessorProvider registered');
+        // dump('PaymentProcessorProvider registered');
         $this->app->bind(PaymentProcessor::class, function (Application $app) {
             return $app->make(Stripe::class, ['config' => []]);
         });
