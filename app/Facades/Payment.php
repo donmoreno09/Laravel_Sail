@@ -16,6 +16,6 @@ class Payment extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'PaymentProcessor::class';
+        return PaymentProcessor::class;
     }
 }
