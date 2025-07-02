@@ -7,33 +7,13 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home.welcome');
+    return view('dashboard');
 });
 
-Route::view(
-    '/examples/if',
-    'examples.if',
-    [
-        'isAdmin' => false,
-        'isEditor' => true,
-        'items' => []
-    ]
-);
+Route::get('/transactions', function () {
+    return view('transactions');
+});
 
-Route::view(
-    '/examples/switch',
-    'examples.switch',
-    [
-        'role' => 'editor'
-    ]
-);
-
-Route::view(
-    '/examples/loops',
-    'examples.loops',
-    [
-        'users' => ['Alice', 'Bob', 'Charlie'],
-        'tasks' => [],
-        'numbers' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    ]
-);
+Route::get('/categories', function () {
+    return view('categories');
+});
