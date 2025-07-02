@@ -1,80 +1,101 @@
 <?php
 
-use App\Facades\Payment;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Lottery;
+use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckUserRole;
-use App\Http\Middleware\SomeOtherMiddleware;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\ProcessTransactionController;
 
 Route::get('/', function () {
-    Payment::process(
-        ['transactionId' => '12345']
-    );
-
     return view('welcome');
 });
 
-Route::prefix('administration')->middleware([CheckUserRole::class, SomeOtherMiddleware::class])->group(function () {
-    Route::get('/', function (){
-        return 'Secret Admin Page';
-    });
+Route::get('/examples/arr', function () {
 
-    Route::get('/other', function () {
-        return 'Another Page';
-    })->withoutMiddleware(SomeOtherMiddleware::class);
+    $order = [
+        'order_id' => '123',
+        'customer' => [
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'city'    => 'New York',
+                'state'   => 'NY',
+                'zip'     => '10001',
+            ],
+        ],
+        'shipping_address' => [
+            'address' => '123 Main St',
+            'city'    => 'New York',
+            'state'   => 'NY',
+            'zip'     => '10001',
+        ],
+        'items' => [
+            ['name' => 'Laptop',     'price' => 1200],
+            ['name' => 'Phone',      'price' => 700],
+            ['name' => 'Headphones', 'price' => 100],
+        ],
+        'sub_total'     => 2000,
+        'discount'      => 100,
+        'shipping_cost' => 30,
+        'total'         => 1930,
+        'status'        => 'pending',
+    ];
 
+    // Ottenere un valore annidato
+    $city = Arr::get($order, 'customer.address.city');
 
+    // Modificare un valore annidato
+    Arr::set($order, 'customer.address.zip', '10002');
+
+    // Recuperare il nuovo valore modificato
+    $zip = Arr::get($order, 'customer.address.zip');
+
+    return [
+        'city' => $city,
+        'zip'  => $zip,
+    ];
 });
 
-// Route::get('/administration', function () {
-//     return 'Secret Admin Page';
-// })->middleware(CheckUserRole::class);
+Route::get('/examples/lottery', function() {
+    $result = Lottery::odds(9, 10)
+        ->winner(fn() => 'WINNER!')
+        ->loser(fn() => 'LOSER!')
+        ->choose(10);
+
+    return $result;
+});
 
 
-// Route::get('/administration/other', function () {
-//     return 'Another Page';
-// })->middleware(CheckUserRole::class);
+Route::get('/examples/benchmark', function () {
+    $orderItems = [
+        ['name' => 'Laptop', 'price' => 1200, 'quantity' => 1],
+        ['name' => 'Phone', 'price' => 800, 'quantity' => 2],
+        ['name' => 'Desk', 'price' => 150, 'quantity' => 1],
+        ['name' => 'Chair', 'price' => 100, 'quantity' => 4],
+    ];
 
-// Route::name('transactions.')->prefix('transactions')->group(function () {
-//     Route::controller(TransactionController::class)->group(function () {
-//         Route::get('/', 'index')->name('index');
-//         Route::get('/create', 'create')->name('create');
-//         Route::get('/{transactionId}', 'show')->name('show');
-//         Route::post('/', 'store')->name('store');
-//         Route::get('/{transactionId}/dopcuments')->name('documents');
-//     });
+    $method1 = function (array $orderItems) {
+        $total = 0;
+        foreach ($orderItems as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+        return $total;
+    };
 
-//     Route::get('/{transactionId}/process', ProcessTransactionController::class)->name('process');
-// });
+    $method2 = function (array $orderItems) {
+        return array_sum(array_map(function ($item) {
+            return $item['price'] * $item['quantity'];
+        }, $orderItems));
+    };
 
-// Route::prefix(('transactions'))->group(function () {
+    $results = Benchmark::measure(
+        [
+            'Total calculation with foreach (Method 1)' => fn() => $method1($orderItems),
+            'Total calculation with array_sum/array_map (Method 2)' => fn() => $method2($orderItems),
+        ]
+    );
 
-//     Route::controller(TransactionController::class)->group(function () {
+    return $results;
+});
 
-//         Route::name('transactions.')->group(function () {
-//             Route::get('/', 'index')->name('index');
-//             Route::get('/create', 'create')->name('create');
-//             Route::get('/{transactionId}', 'show')->name('show');
-//             Route::post('/', 'store')->name('store');
-//         });
-//         // Route::get('/', 'index')->name('transactions.index');
-//         // Route::get('/create', 'create')->name('transactions.create');
-//         // Route::get('/{transactionId}', 'show')->name('transactions.show');
-//         // Route::post('/', 'store')->name('transactions.store');
-//     });
 
-//     // Route::get('/', [TransactionController::class, 'index']);
-//     // Route::get('/create', [TransactionController::class, 'create']);
-//     // Route::get('/{transactionId}', [TransactionController::class, 'show']);
-//     // Route::post('/', [TransactionController::class, 'store']);
-
-//     Route::get('/{transactionId}/process', ProcessTransactionController::class);
-// });
-
-// Route::get('/transactions', [TransactionController::class, 'index']);
-// Route::get('/transactions/create', [TransactionController::class, 'create']);
-// Route::get('/transactions/{transactionId}', [TransactionController::class, 'show']);
-// Route::post('/transactions', [TransactionController::class, 'store']);
-
-// Route::get('transactions/{transactionId}/process', ProcessTransactionController::class);
