@@ -3,6 +3,7 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Lottery;
 use Illuminate\Support\Benchmark;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -99,3 +100,44 @@ Route::get('/examples/benchmark', function () {
 });
 
 
+Route::get('/examples/pipeline', function () {
+    $order = [
+        'order_id' => '123',
+        'customer' => [
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'city'    => 'New York',
+                'state'   => 'NY',
+                'zip'     => '10001',
+            ],
+        ],
+        'shipping_address' => [
+            'address' => '123 Main St',
+            'city'    => 'New York',
+            'state'   => 'NY',
+            'zip'     => '10001',
+        ],
+        'items' => [
+            ['name' => 'Laptop',     'price' => 1200],
+            ['name' => 'Phone',      'price' => 700],
+            ['name' => 'Headphones', 'price' => 100],
+        ],
+        'sub_total'     => 2000,
+        'discount'      => 100,
+        'shipping_cost' => 30,
+        'total'         => 2030,
+        'status'        => 'pending',
+    ];
+
+    dd( \Illuminate\Support\Facades\Pipeline::send($order)
+        ->through([
+            \App\Pipelines\Order\ValidateOrder::class,
+            \App\Pipelines\Order\CalculateShipping::class,
+            \App\Pipelines\Order\ApplyDiscount::class,
+            \App\Pipelines\Order\GenerateInvoice::class,
+            \App\Pipelines\Order\CompleteOrder::class,
+        ])
+        ->thenReturn());
+});
