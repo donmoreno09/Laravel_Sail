@@ -1,8 +1,5 @@
-<x-layout>
-    <x-slot:title>
-        Dashboard
-    </x-slot:title>
+<x-layout title="Dashboard" header-title="Dashboard">
 
     Hello, this is the dashboard page.
-    
+
 </x-layout>
