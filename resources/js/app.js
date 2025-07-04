@@ -1,2 +1,5 @@
 import './bootstrap';
-import '../images/logo.png'
+
+import.meta.glob([
+    '../images/**',
+]);
