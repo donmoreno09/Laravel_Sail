@@ -9,26 +9,10 @@ Transactions
     <div class="w-full py-3 px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
 
-            <x-cards.stat title="Total reported income" label="Total Income" :amount="$totalIncome"/>
-            <x-cards.stat label="Total Expense" :amount="$totalExpense"/>
-            <x-cards.stat label="Net Savings" :amount="$netSavings"/>
-            <x-cards.stat label="Goal" :amount="$goal"/>
-            
-            {{-- As you can see we are passing the data as string because it has no colon before the attribute's name (Ex. :amount)
-                but we can also pass the data as a variable like this:
-                    <x-cards.stat label="Total Income" :amount="$totalIncome"/>, this means that we are using raw PHP code to pass the data 
-                and we can use the same syntax for the other cards as well. 
-                The difference is that when we use the colon before the attribute's name, we are passing a variable, 
-                while when we don't use the colon, we are passing a string.
-                This is useful when we want to pass a variable that is not a string, like an integer or an array.
-                In this case, we are passing the data from the web.php file
-                to the view file, so we can use the same syntax for all the cards.
-                This is a good practice to keep the code clean and readable.
-                We can also use the same syntax for the other cards as well, like this:
-                    <x-cards.stat label="Total Expense" :amount="$totalExpense"/>
-                    <x-cards.stat label="Net Savings" :amount="$netSavings"/>
-                    <x-cards.stat label="Goal" :amount="$goal"/> 
-            --}}    
+            <x-cards.stat label="Total Income" :amount="$totalIncome" color="green"/>
+            <x-cards.stat label="Total Expense" :amount="$totalExpense" color="red"/>
+            <x-cards.stat label="Net Savings" :amount="$netSavings" color="blue"/>
+            <x-cards.stat label="Goal" :amount="$goal" color="yellow"/>
 
             {{-- <div class="bg-white shadow rounded-lg p-4 flex items-center">
                 <div class="bg-red-100 p-3 rounded-full">
