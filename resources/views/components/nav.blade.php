@@ -9,8 +9,8 @@
         
         <!-- Nav tabs -->
         <div class="flex space-x-4">
-            <a href="/" class="px-4 py-2 bg-gray-900 rounded">Dashboard</a>
-            <a href="/transactions" class="px-4 py-2 hover:bg-gray-700 rounded">Transactions</a>
-            <a href="/categories" class="px-4 py-2 hover:bg-gray-700 rounded">Categories</a>
+            <a href="/" class="{{ request()->is('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} px-3 py-2 text-sm font-medium rounded-md">Dashboard</a>
+            <a href="/transactions" class="{{ request()->is('transactions') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} px-3 py-2 text-sm font-medium rounded-md">Transactions</a>
+            <a href="/categories" class="{{ request()->is('categories') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} px-3 py-2 text-sm font-medium rounded-md">Categories</a>
         </div>
     </nav>
