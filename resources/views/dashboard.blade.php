@@ -1,9 +1,8 @@
-@extends('layout')
+<x-layout>
+    <x-slot:title>
+        Dashboard
+    </x-slot:title>
 
-@section('header-title')
-Dashboard
-@endsection
-
-@section('content')
-Dashboard
-@endsection
+    Hello, this is the dashboard page.
+    
+</x-layout>
