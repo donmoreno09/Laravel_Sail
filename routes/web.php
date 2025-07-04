@@ -11,7 +11,12 @@ Route::get('/', function () {
 });
 
 Route::get('/transactions', function () {
-    return view('transactions', );
+    return view('transactions', [
+        'totalIncome' => 50000,
+        'totalExpense' => 45000,
+        'netSavings' => 5000,
+        'goal' => 10000
+    ]);
 });
 
 Route::get('/categories', function () {
