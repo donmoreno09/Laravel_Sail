@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate(); // This one is more concise
-            /* $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate(); // Or you can use these two lines to configure the foreign key */
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate(); 
+            $table->decimal('amount', 10);
+            $table->string('description');
+            $table->dateTime('transaction_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
