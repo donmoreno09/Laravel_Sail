@@ -11,7 +11,7 @@ Route::get('/', function () {
 });
 
 Route::get('/transactions', function () {
-    return view('transactions');
+    return view('transactions', );
 });
 
 Route::get('/categories', function () {
