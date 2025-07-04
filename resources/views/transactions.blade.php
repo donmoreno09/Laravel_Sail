@@ -1,4 +1,4 @@
-<x-layout title="Transactions" header-title="Transactions">
+<x-layout title="Transactions" header-title="Transactions" :extended-header="true">
 
     <x-slot:header>
         <div class="w-full py-3 px-4 sm:px-6 lg:px-8">
