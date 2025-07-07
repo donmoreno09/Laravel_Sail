@@ -13,14 +13,9 @@ class TransactionService
     {
     }
 
-    public function findTransaction(int $transactionId): array
+    public function find(int $transactionId): ?\stdClass 
     {
-        return [
-            'transactionId' => $transactionId,
-            'amount' => 100.00,
-            'currency' => 'USD',
-            'status' => 'completed',
-        ];
+        return $this->db->selectOne('SELECT * FROM transactions WHERE id = ?', [$transactionId]);
     }
     
     public function create(float $amount, Carbon $date, string $description): bool
@@ -32,4 +27,23 @@ class TransactionService
         ]);
     }
 
+    public function getAll(): array
+    {
+        return $this->db->select('SELECT * FROM transactions ORDER BY transaction_date DESC, created_at DESC');
+    }   
+
+    public function update(int $transactionId, float $amount, Carbon $date, string $description)
+    {
+        return $this->db->update('UPDATE transactions SET amount = ?, transaction_date = ?, description = ?, updated_at = NOW() WHERE id = ?', [
+            $amount,
+            $date,
+            $description,
+            $transactionId,
+        ]);
+    }
+
+    public function delete(int $transactionId): int
+    {
+        return $this->db->delete('DELETE FROM transactions WHERE id = ?', [$transactionId]);
+    }
 }
