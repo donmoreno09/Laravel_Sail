@@ -2,38 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Contracts\PaymentProcessor;
+use Illuminate\Contracts\View\View;
 use App\Services\TransactionService;
 
 class TransactionController
 {
     
-    public function index(): string
+    public function index(): View
     {
 
-        return 'Transactions Page';
+        return view('transactions.index', [
+            'totalIncome' => 50000,
+            'totalExpense' =>45000,
+            'netSavings' => 5000,
+            'goal' => 10000
+        ]);
     }
 
     public function show(int $transactionId, TransactionService $transactionService, PaymentProcessor $paymentProcessor): string
     {
-        $transaction = $transactionService->findTransactionById($transactionId);
+        $transaction = $transactionService->findTransaction($transactionId);
 
         $paymentProcessor->process($transaction);
 
         return 'Transactioon ID: ' . $transaction['transactionId'] . ', Amount: ' . $transaction['amount'] . ', Currency: ' . $transaction['currency'] . ', Status: ' . $transaction['status'];
     }
 
-    public function create(): string
+    public function create(): View
     {
-        return 'Create Transaction Page';
+        return view('transactions.create');
     }
 
-    public function store(Request $request): string
+    public function store(Request $request, TransactionService $transactionService): string
     {
-        // Here you would typically handle the request to create a new transaction
-        // For simplicity, we will just return a success message
-        return 'Transaction created successfully';
+        $amount = $request->get('amount');
+        $date = $request->get('date');
+        $description = $request->get('description');
+
+        $transactionService->create($amount, new Carbon($date), $description);
+
+        return redirect(route('transactions.index'))->with('success', 'Transaction created successfully.');
     }
 }
 

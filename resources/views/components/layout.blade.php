@@ -26,14 +26,10 @@
     @endisset
 
     <!-- Main content -->
-    <main class="p-6">
-        <!-- Content card -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-lg text-gray-700">
+    <main>
+        <div class="w-full py-6 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-lg py-6 px-4 min-h-96">
                 {{ $slot }}
-            </h2>
-            <div class="h-96">
-                <!-- Content goes here -->
             </div>
         </div>
     </main>

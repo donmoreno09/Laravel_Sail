@@ -1,22 +1,19 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Lottery;
-use Illuminate\Support\Benchmark;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/transactions', function () {
-    return view('transactions', [
-        'totalIncome' => 50000,
-        'totalExpense' => 45000,
-        'netSavings' => 5000,
-        'goal' => 10000
-    ]);
+Route::prefix('/transactions')->group(function () {
+    Route::controller(TransactionController::class)->group(function () {
+        Route::get('/', 'index')->name('transactions.index');
+        Route::get('/create', 'create')->name('transactions.create'); 
+        Route::post('/', 'store')->name('transactions.store');  
+        Route::get('/{transactionId}', 'show')->name('transactions.show');
+    });
 });
 
 Route::get('/categories', function () {
