@@ -19,14 +19,16 @@ readonly class TransactionController
     {
 
         $transactions = $this->transactionService->getAll();
+        $income = $this->transactionService->getTotalIncome();
+        $expense = $this->transactionService->getTotalExpense();
 
         // dd($transactions);
 
         return view('transactions.index', [
-            'totalIncome' => 50000,
-            'totalExpense' =>45000,
-            'netSavings' => 5000,
-            'goal' => 10000,
+            'totalIncome' => $income,
+            'totalExpense' =>$expense,
+            'netSavings' => $income - $expense,
+            'goal' => 0,
             'transactions' => $transactions,
         ]);
     }
